@@ -1,0 +1,7 @@
+<h1>EDIT THIS POST</h1><br>
+<%= render 'form', 
+    post: @post, 
+    edit: true, 
+    action: post_url(@post), 
+    button_text: "Edit Post or whatever" 
+%>

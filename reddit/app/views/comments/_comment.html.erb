@@ -1,0 +1,49 @@
+<style>
+    .parent_comment {
+        position: relative;
+        clear: left;
+    }
+    .child_comment {
+        position: relative;
+        left: 40px;
+        float: left;
+        
+    }
+</style>
+
+<div class="parent_comment">
+    <form action="<%= upvote_comment_url(parent_comment) %>" value="post">
+        <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+        <input type="hidden" name="post_id" value="<%=params[:id]%>">
+        <input type="submit" value="Upvote">
+    </form>
+    <form action="<%= downvote_comment_url(parent_comment) %>" value="post">
+        <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+        <input type="hidden" name="post_id" value="<%=params[:id]%>">
+        <input type="submit" value="Downvote">
+    </form>
+    => Date: <%= parent_comment.created_at %> | <strong>
+    <%= parent_comment.user.username %></strong>:
+<%= parent_comment.content %>
+<form action="<%= comments_url %>" method="post">
+    <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+    <label> Content:
+        <input type="text" name="comment[content]" value="<%=%>"><br>
+    </label>
+    <input type="hidden" name="parent_id" value="<%= parent_comment.id %>">
+    <input type="hidden" name="post_id" value="<%=params[:id]%>">
+    <input type="submit" value="Reply to Comment">
+</form>
+<form action="<%= comment_url(parent_comment) %>" method="post">
+    <input type="hidden" name="_method" value="delete">
+    <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+    <input type="submit" value="This a dumb comment">
+</form>
+<br>
+
+    <ul class="child_comment">
+    <% all_comments[parent_comment.id].each do |child_comment| %>
+        <li><%= render 'comments/comment', post: post, all_comments: all_comments, parent_comment: child_comment%></li>
+    <% end %>
+    </ul>
+</div>

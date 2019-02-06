@@ -1,0 +1,30 @@
+<a href="<%= sub_url(@post.sub_id) %>">All posts in <%= @post.sub.title %></a><br>
+
+<% if current_user.id == @post.user_id %>
+    <a href="<%= edit_post_url %>">Edit this post</a><br>
+<% end %>
+
+<h1>thanks for visiting "<%= @post.title %>" </h1> <br>
+
+<form action="<%= upvote_post_url(@post) %>" value="post">
+    <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+    <input type="submit" value="Upvote">
+</form>
+<form action="<%= downvote_post_url(@post) %>" value="post">
+    <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+    <input type="submit" value="Downvote">
+</form>
+
+
+<strong>URL:</strong><%= @post.url %><br>
+<strong>Content:</strong><%= @post.content %><br>
+
+<strong>Comments:</strong>
+<a href="<%= new_post_comment_url(@post) %>">Create New COmMeNt</a><br>
+
+<% @all_comments[nil].each do |comment| %>
+    <% if comment.parent_id.nil? %>
+    <%= render 'comments/comment', post: @post, all_comments: @all_comments, parent_comment: comment%>
+    <% end %>
+<% end %>
+

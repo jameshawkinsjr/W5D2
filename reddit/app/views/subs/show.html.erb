@@ -1,0 +1,24 @@
+
+<a href="<%= new_sub_post_url(@sub) %>">Make a new post!</a><br>
+
+<% if current_user.id == @sub.user_id %>
+    <a href="<%= edit_sub_url %>">Edit this sub</a><br>
+<% end %>
+
+<h1>thanks for visiting "<%= @sub.title %>" </h1> <br>
+
+description:
+<br>
+<%= @sub.description %><br><br><br>
+
+
+all posts: 
+<br>
+
+
+<% @sub.cross_posted_posts.each do |post|%>
+
+    <a href="<%=post_url(post)%>"><%= post.title %></a><br>
+
+<% end %>
+
